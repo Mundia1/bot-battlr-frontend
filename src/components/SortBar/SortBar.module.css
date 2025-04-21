@@ -1,0 +1,68 @@
+.sortBarContainer {
+    background-color: #f5f5f5;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .sortOptions, .filterOptions {
+    margin-bottom: 15px;
+  }
+  
+  .sortOptions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .sortOptions h3, .filterOptions h3 {
+    margin: 0;
+    font-size: 1rem;
+    margin-right: 10px;
+  }
+  
+  .sortButton, .filterButton {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .sortButton:hover, .filterButton:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .sortButton.active, .filterButton.active {
+    background-color: #4caf50;
+    color: white;
+    border-color: #4caf50;
+  }
+  
+  .filterButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  
+  @media (min-width: 768px) {
+    .sortBarContainer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    
+    .sortOptions, .filterOptions {
+      margin-bottom: 0;
+    }
+    
+    .filterOptions {
+      flex: 1;
+      max-width: 60%;
+    }
+  }
