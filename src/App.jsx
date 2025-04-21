@@ -3,7 +3,7 @@ import BotCollection from "./components/BotCollection/BotCollection";
 import YourBotArmy from "./components/YourBotArmy/YourBotArmy";
 import BotSpecs from "./components/BotSpecs/BotSpecs";
 import SortBar from "./components/SortBar/SortBar";
-import { fetchBots, deleteBot } from "./utils/api";
+import { fetchBots, dischargeBot } from "./utils/api"; // Changed deleteBot to dischargeBot
 import "./App.css";
 
 function App() {
@@ -25,11 +25,12 @@ function App() {
       try {
         setLoading(true);
         const botsData = await fetchBots();
+        console.log('Fetched bots:', botsData); // Debug log
         setBots(botsData);
         setDisplayedBots(botsData);
       } catch (err) {
         setError("Failed to load bots. Please try again later.");
-        console.error(err);
+        console.error('Load bots error:', err);
       } finally {
         setLoading(false);
       }
@@ -78,11 +79,9 @@ function App() {
 
   const dischargeBot = async (botId) => {
     try {
-      await deleteBot(botId);
-      
+      await dischargeBot(botId); // Changed to dischargeBot
       // Remove from army
       setArmy(army.filter(b => b.id !== botId));
-      
       // Also remove from original bots list
       setBots(bots.filter(b => b.id !== botId));
       setDisplayedBots(displayedBots.filter(b => b.id !== botId));
