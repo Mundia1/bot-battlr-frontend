@@ -1,0 +1,131 @@
+.botSpecsContainer {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .botSpecsContainer h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .botSpecsCard {
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .botHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .botHeader h3 {
+    font-size: 1.8rem;
+    margin: 0;
+  }
+  
+  .botClass {
+    background-color: #333;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  
+  .botImageContainer {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .botImage {
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .botStats {
+    margin-bottom: 24px;
+  }
+  
+  .statItem {
+    margin-bottom: 12px;
+  }
+  
+  .statLabel {
+    font-weight: 500;
+    display: inline-block;
+    width: 80px;
+  }
+  
+  .statBar {
+    display: inline-flex;
+    align-items: center;
+    width: calc(100% - 90px);
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .statFill {
+    height: 100%;
+    border-radius: 10px;
+  }
+  
+  .statValue {
+    position: absolute;
+    right: 10px;
+    color: white;
+    font-weight: 600;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+  }
+  
+  .botCatchphrase {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 8px;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  
+  .botActions {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  
+  .botButton {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .backBtn {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+  }
+  
+  .backBtn:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .enlistBtn {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .enlistBtn:hover {
+    background-color: #388e3c;
+  }
