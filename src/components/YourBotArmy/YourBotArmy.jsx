@@ -8,9 +8,9 @@ const YourBotArmy = ({ army, releaseBot, dischargeBot }) => {
       <h2>Your Bot Army</h2>
       <div className={styles.armyDescription}>
         {army.length === 0 ? (
-          <p>You don't have any bots in your army yet. Click on bots to enlist them!</p>
+          <p>You don't have any bots in your army yet. Click on bots to view details and enlist them!</p>
         ) : (
-          <p>Click on a bot to release it from your army.</p>
+          <p>Click on a bot to release it from your army. Click the X to discharge permanently.</p>
         )}
       </div>
       <div className={styles.botArmy}>
