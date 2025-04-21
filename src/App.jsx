@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import BotCollection from "./components/BotCollection/BotCollection";
 import YourBotArmy from "./components/YourBotArmy/YourBotArmy";
 import BotSpecs from "./components/BotSpecs/BotSpecs";
 import SortBar from "./components/SortBar/SortBar";
-import { fetchBots, dischargeBot } from "./utils/api"; // Changed deleteBot to dischargeBot
+import { fetchBots, dischargeBot } from "./utils/api";
 import "./App.css";
 
 function App() {
@@ -12,32 +12,31 @@ function App() {
   const [army, setArmy] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [viewMode, setViewMode] = useState("collection"); // collection, specs
+  const [viewMode, setViewMode] = useState("collection");
   const [selectedBot, setSelectedBot] = useState(null);
-  
-  // Sorting and filtering states
+
   const [sortBy, setSortBy] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
   const [filterClasses, setFilterClasses] = useState([]);
 
-  useEffect(() => {
-    const loadBots = async () => {
-      try {
-        setLoading(true);
-        const botsData = await fetchBots();
-        console.log('Fetched bots:', botsData); // Debug log
-        setBots(botsData);
-        setDisplayedBots(botsData);
-      } catch (err) {
-        setError("Failed to load bots. Please try again later.");
-        console.error('Load bots error:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadBots();
+  const loadBots = useCallback(async () => {
+    try {
+      setLoading(true);
+      const botsData = await fetchBots();
+      console.log('Fetched bots:', botsData);
+      setBots(botsData);
+      setDisplayedBots(botsData);
+    } catch (err) {
+      setError("Failed to load bots. Please try again later.");
+      console.error('Load bots error:', err);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadBots();
+  }, [loadBots]);
 
   const viewBotSpecs = (bot) => {
     setSelectedBot(bot);
@@ -50,17 +49,11 @@ function App() {
   };
 
   const enlistBot = (bot) => {
-    // Check if bot class is already in army
     const botClassExists = army.some(b => b.bot_class === bot.bot_class);
-    
+
     if (!botClassExists) {
-      // Add to army
       setArmy([...army, bot]);
-      
-      // Remove from displayed collection
       setDisplayedBots(displayedBots.filter(b => b.id !== bot.id));
-      
-      // If in specs view, go back to collection
       if (viewMode === "specs") {
         backToCollection();
       }
@@ -70,26 +63,26 @@ function App() {
   };
 
   const releaseBot = (bot) => {
-    // Remove from army
     setArmy(army.filter(b => b.id !== bot.id));
-    
-    // Add back to collection
     setDisplayedBots([...displayedBots, bot]);
   };
 
-  const dischargeBot = async (botId) => {
+  const handleDischargeBot = useCallback(async (botId) => {
     try {
-      await dischargeBot(botId); // Changed to dischargeBot
-      // Remove from army
-      setArmy(army.filter(b => b.id !== botId));
-      // Also remove from original bots list
-      setBots(bots.filter(b => b.id !== botId));
-      setDisplayedBots(displayedBots.filter(b => b.id !== botId));
+      console.log('Attempting to discharge bot:', botId);
+      console.log('Current army:', army);
+      console.log('Current bots:', bots);
+      console.log('Current displayedBots:', displayedBots);
+      await dischargeBot(botId);
+      setArmy(prevArmy => prevArmy.filter(b => b.id !== botId));
+      setBots(prevBots => prevBots.filter(b => b.id !== botId));
+      setDisplayedBots(prevDisplayedBots => prevDisplayedBots.filter(b => b.id !== botId));
+      console.log('Discharge successful for bot:', botId);
     } catch (err) {
+      console.error('Discharge error:', err.message);
       setError("Failed to discharge bot. Please try again.");
-      console.error(err);
     }
-  };
+  }, [dischargeBot]);
 
   if (loading) {
     return <div className="loading">Loading bots...</div>;
@@ -106,15 +99,15 @@ function App() {
         <p>Build your bot army!</p>
       </header>
 
-      <YourBotArmy 
-        army={army} 
+      <YourBotArmy
+        army={army}
         releaseBot={releaseBot}
-        dischargeBot={dischargeBot}
+        dischargeBot={handleDischargeBot}
       />
 
       {viewMode === "collection" && (
         <>
-          <SortBar 
+          <SortBar
             sortBy={sortBy}
             setSortBy={setSortBy}
             sortDirection={sortDirection}
@@ -122,7 +115,7 @@ function App() {
             filterClasses={filterClasses}
             setFilterClasses={setFilterClasses}
           />
-          <BotCollection 
+          <BotCollection
             bots={displayedBots}
             handleClick={viewBotSpecs}
             sortBy={sortBy}
@@ -133,7 +126,7 @@ function App() {
       )}
 
       {viewMode === "specs" && selectedBot && (
-        <BotSpecs 
+        <BotSpecs
           bot={selectedBot}
           enlistBot={enlistBot}
           backToCollection={backToCollection}
